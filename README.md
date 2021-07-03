@@ -26,7 +26,7 @@ Building from source:
 [numpy](http://www.scipy.org) , [scipy](http://numpy.org), [matplotlib](http://matplotlib.org).
 
 #### Recommended
-[GDAL](http://gdal.org) is needed to reproject out of WGS84, and thus for proper distance measurement. Otherwise, distance calculations re going to moderately or severely incorrect.
+[GDAL](http://gdal.org).
 
 
 ## Usage:
