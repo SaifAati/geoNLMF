@@ -15,11 +15,13 @@ CNLMFilter::CNLMFilter() {}
 void CNLMFilter::SetSearchSize(int size) {
     //Store the search size:
     searchSize = size;
+    std::cout<<"SearchSize:"<<searchSize<<std::endl;
 }
 
 void CNLMFilter::SetWindowSize(int size) {
     //Store the window size:
     windowSize = size;
+    std::cout<<"WindowSize:"<<windowSize<<std::endl;
 }
 
 int CNLMFilter::GetWindowSize() {
@@ -35,11 +37,13 @@ void CNLMFilter::StoreWeightingFunctionType(int type) {
 void CNLMFilter::StoreMinNumberOfWeights(int number) {
     //Store the minimum number of weights:
     minNumberOfWeights = number;
+    std::cout<< "minNumberOfWeights:"<< minNumberOfWeights<<std::endl;
 }
 
 void CNLMFilter::StoreMinimumWeightValue(double value) {
     //Store the minimum weight threshold value:
     minimumWeightThreshold = value;
+    std::cout<< "minimumWeightThreshold:"<<minimumWeightThreshold<<std::endl;
 }
 
 double CNLMFilter::GetMinimumWeightThreshold() {
@@ -48,18 +52,28 @@ double CNLMFilter::GetMinimumWeightThreshold() {
 }
 
 void CNLMFilter::StoreLinearFitOption(int selection) {
-    //Store the boolean:
+    // Linear fi option:
+    //  1: For linear regression (Future Work)
+    //  2: For gaussian Kernel (Future work)
+    //  0: Average Kernel
     useLinearFit = selection;
+    std::cout<< "LinearFit:"<<useLinearFit<<std::endl;
 }
 
 void CNLMFilter::StoreAdaptiveHoption(int selection) {
     //Store the integer selection:
     useAdaptiveH = selection;
+    if (useAdaptiveH==1)
+        {std::cout<<"Adaptive H: True"<<std::endl;}
+    else {std::cout<<"Adaptive H: False"<<std::endl;}
 }
 
 void CNLMFilter::StoreSNRWeightingOption(int selection) {
     //Store the SNR weighting int (yes = 1, no = 0):
     useSNRdata = selection;
+    if (useSNRdata==1)
+    {std::cout<<"Weight with SNR: True"<<std::endl;}
+    else {std::cout<<"Weight with SNR: False"<<std::endl;}
 }
 
 bool CNLMFilter::UsesSNRdata() {

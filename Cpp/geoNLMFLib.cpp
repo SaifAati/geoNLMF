@@ -132,7 +132,7 @@ extern "C"
         // Check to see if the SNR weighting option has been chosen:
         if (filterObject.UsesSNRdata())
         {
-            std::cout<<"Using SNR Filtering!!" <<std::endl;
+//            std::cout<<"Using SNR Filtering!!" <<std::endl;
             // user wants SNR weighting applied. Check the filterData
             // type and replace the NaNs in the filterData with 0 while,
             // at the same time, building an SNR-NaN mask for use
@@ -166,7 +166,7 @@ extern "C"
         }
         else
         {
-            std::cout<<"Not using SNR Filtering!!" <<std::endl;
+//            std::cout<<"Not using SNR Filtering!!" <<std::endl;
             if (filterObject.iDataType == geoNLMFLib::FLOAT)
             {
             #pragma omp parallel num_threads(filterObject.nbCPUs)

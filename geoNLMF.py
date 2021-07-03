@@ -30,7 +30,7 @@ class cgeoNLMF:
     __nbBands = 1
     __snrArray_fl = np.zeros((1, 1), dtype=np.float32)
     _oRasterPath = ""
-    __geoNLMFLibPath = "/home/cosicorr/0-WorkSpace/3-PycharmProjects/geoNLMF_Dev/geoNLMF_v0.1/Cpp/libgeoNLMF.so"
+    __geoNLMFLibPath = "/home/cosicorr/0-WorkSpace/3-PycharmProjects/geoNLMF/Cpp/libgeoNLMF.so"
 
     def __init__(self, iRasterPath,
                  useSNR=0,
@@ -117,17 +117,20 @@ class cgeoNLMF:
         Returns:
 
         """
+        from mpl_toolkits.axes_grid1 import make_axes_locatable
         fig, axs = plt.subplots(1, 2)
 
-        axs[0].imshow(self.iRasterArray, cmap=cmap, vmin=vmin, vmax=vmax)
-        # oArray = np.empty(np.shape(self.__oArray))
-        # oArray[:] = float(self.__oArray[:])
+        im = axs[0].imshow(self.iRasterArray, cmap=cmap, vmin=vmin, vmax=vmax)
         axs[1].imshow(self.__oArray, cmap=cmap, vmin=vmin, vmax=vmax)
-        # axs[2].imshow(self.snrOutput, cmap="gray", vmin=0, vmax=1)
-        for ax, title in zip(axs, ["Before geoNLMF", "after geoNLMF"]):
+        for ax, title in zip(axs, ["E/W Disp. before\n  ", "E/W Disp. before after \ngeoNLMF"]):
             ax.axis('off')
             ax.set_title(title)
-        # plt.savefig(os.path.join(os.path.dirname(self.oCorrPath), Path(self.oCorrPath).stem + ".png"), dpi=600)
+        # divider = make_axes_locatable(axs[-1])
+        # cax = divider.append_axes("right", size="5%", pad=0.05)
+        # cbar = plt.colorbar(im, cax=cax)
+
+
+
         plt.show()
         return
 
@@ -191,14 +194,7 @@ class cgeoNLMF:
 
 
 if __name__ == '__main__':
-    iRasterPath = os.path.join(os.path.dirname(__file__), "Test/Data/pyCorr_Stat_B1_R20_subset.tif")
+    iRasterPath = os.path.join(os.path.dirname(__file__), "Test/Data/Disp1.tif")
     print(iRasterPath)
-    geoNLMFObj = cgeoNLMF(iRasterPath, patchSize=3, searchSize=42, h=2, useSNR=0,adaptive=1,
-
-                 weighting=1)
-                 # linearRegression=None,
-                 # minWeight=None,
-                 # minNumberWeights=None,
-                 # nbBands=None,
-                 # oRasterPath=None)
+    geoNLMFObj = cgeoNLMF(iRasterPath, patchSize=5, searchSize=41, h=2, useSNR=0, adaptive=0)
     geoNLMFObj.geoNLMF()
