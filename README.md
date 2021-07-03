@@ -35,4 +35,4 @@ Building from source:
 
 ## Examples:
 
-![plot](https://github.com/SaifAati/geoNLMF/blob/main/Test/Data/ResExample1.png=true  )
+![Example1](https://github.com/SaifAati/geoNLMF/blob/main/Test/Data/ResExample1.png)
