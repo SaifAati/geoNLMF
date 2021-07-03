@@ -35,4 +35,4 @@ Building from source:
 
 ## Examples:
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/SaifAati/geoNLMF/blob/main/Test/Data/ResExample1.pngtrue  )
