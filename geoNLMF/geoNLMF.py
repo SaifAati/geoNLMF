@@ -122,7 +122,7 @@ class cgeoNLMF:
 
         im = axs[0].imshow(self.iRasterArray, cmap=cmap, vmin=vmin, vmax=vmax)
         axs[1].imshow(self.__oArray, cmap=cmap, vmin=vmin, vmax=vmax)
-        for ax, title in zip(axs, ["E/W Disp. before\n  ", "E/W Disp. before after \ngeoNLMF"]):
+        for ax, title in zip(axs, ["E/W Disp. before\n  ", "E/W Disp. after \ngeoNLMF"]):
             ax.axis('off')
             ax.set_title(title)
         # divider = make_axes_locatable(axs[-1])
