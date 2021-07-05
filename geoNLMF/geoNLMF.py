@@ -30,7 +30,7 @@ class cgeoNLMF:
     __nbBands = 1
     __snrArray_fl = np.zeros((1, 1), dtype=np.float32)
     _oRasterPath = ""
-    __geoNLMFLibPath = "/home/cosicorr/0-WorkSpace/3-PycharmProjects/geoNLMF/Cpp/libgeoNLMF.so"
+    __geoNLMFLibPath = os.path.join(os.path.dirname(__file__), "Cpp/libgeoNLMF.so")
 
     def __init__(self, iRasterPath,
                  useSNR=0,
@@ -129,8 +129,6 @@ class cgeoNLMF:
         # cax = divider.append_axes("right", size="5%", pad=0.05)
         # cbar = plt.colorbar(im, cax=cax)
 
-
-
         plt.show()
         return
 
@@ -194,6 +192,8 @@ class cgeoNLMF:
 
 
 if __name__ == '__main__':
+
+
     iRasterPath = os.path.join(os.path.dirname(__file__), "Test/Data/Disp1.tif")
     print(iRasterPath)
     geoNLMFObj = cgeoNLMF(iRasterPath, patchSize=5, searchSize=41, h=2, useSNR=0, adaptive=0)

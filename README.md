@@ -40,7 +40,7 @@ The package is tested on 3.6+ and C++11.
 
 ## **Examples**:
 
-![Example1](https://github.com/SaifAati/geoNLMF/blob/main/Test/Data/ResExample1.png)
+![Example1](https://github.com/SaifAati/geoNLMF/tree/main/geoNLMF/Test/Data/ResExample1.png)
 
 ---
 ## References:
