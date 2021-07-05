@@ -44,7 +44,8 @@ class cgeoNLMF:
                  minWeight=None,
                  minNumberWeights=None,
                  nbBands=None,
-                 oRasterPath=None
+                 oRasterPath=None,
+                 visualize= False
 
                  ):
         """
@@ -90,6 +91,7 @@ class cgeoNLMF:
         if oRasterPath != None:
             self._oRasterPath = os.path.join(os.path.dirname(self.iRasterPath),
                                              Path(self.iRasterPath).stem + "_geoNLMF.tif")
+        self.visualize = visualize
 
     def geoNLMF(self):
 
@@ -102,7 +104,8 @@ class cgeoNLMF:
             snrArray = self.__iRasterInfo.ImageAsArray(bandNumber=3)
             self.__snrArray_fl = np.array(snrArray.flatten(), dtype=np.float32)
         self.PerformNLMF()
-        self.VisualizeFiltering(-2, 2)
+        if self.visualize:
+            self.VisualizeFiltering(-2, 2)
 
         return
 
@@ -195,5 +198,5 @@ if __name__ == '__main__':
 
 
     iRasterPath = os.path.join(os.path.dirname(__file__), "Test/Data/Disp1.tif")
-    geoNLMFObj = cgeoNLMF(iRasterPath, patchSize=7, searchSize=41, h=2, useSNR=0, adaptive=0)
+    geoNLMFObj = cgeoNLMF(iRasterPath, patchSize=7, searchSize=41, h=2, useSNR=0, adaptive=0,visualize =True)
     geoNLMFObj.geoNLMF()
