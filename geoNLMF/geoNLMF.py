@@ -122,7 +122,7 @@ class cgeoNLMF:
 
         im = axs[0].imshow(self.iRasterArray, cmap=cmap, vmin=vmin, vmax=vmax)
         axs[1].imshow(self.__oArray, cmap=cmap, vmin=vmin, vmax=vmax)
-        for ax, title in zip(axs, ["E/W Disp. before\n  ", "E/W Disp. after \ngeoNLMF"]):
+        for ax, title in zip(axs, ["E/W Disp. before\ngeoNLMF  ", "E/W Disp. after \ngeoNLMF"]):
             ax.axis('off')
             ax.set_title(title)
         # divider = make_axes_locatable(axs[-1])
@@ -195,6 +195,5 @@ if __name__ == '__main__':
 
 
     iRasterPath = os.path.join(os.path.dirname(__file__), "Test/Data/Disp1.tif")
-    print(iRasterPath)
-    geoNLMFObj = cgeoNLMF(iRasterPath, patchSize=5, searchSize=41, h=2, useSNR=0, adaptive=0)
+    geoNLMFObj = cgeoNLMF(iRasterPath, patchSize=7, searchSize=41, h=2, useSNR=0, adaptive=0)
     geoNLMFObj.geoNLMF()
