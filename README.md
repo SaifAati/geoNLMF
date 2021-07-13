@@ -39,7 +39,7 @@ The package is tested on 3.6+ and C++11.
 [numpy](http://www.scipy.org) , [scipy](http://numpy.org), [matplotlib](http://matplotlib.org).
 
 ## **Sample output**:
-###ROI: Ridgecrest
+### ROI: Ridgecrest
 Apply geoNLMF on the East/West displacement map: `patchSize=7, searchSize=41, h=2`
 
 ![Example1](geoNLMF/Test/Data/Disp2_B1_geoNLMF.png)
