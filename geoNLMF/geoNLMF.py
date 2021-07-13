@@ -29,7 +29,7 @@ class cgeoNLMF:
     __minNumberWeights = 6
     __nbBands = 1
     __snrArray_fl = np.zeros((1, 1), dtype=np.float32)
-    _oRasterPath = ""
+
     __geoNLMFLibPath = os.path.join(os.path.dirname(__file__), "Cpp/libgeoNLMF.so")
 
     def __init__(self, iRasterPath,
@@ -44,8 +44,8 @@ class cgeoNLMF:
                  minWeight=None,
                  minNumberWeights=None,
                  nbBands=None,
-                 oRasterPath=None,
-                 visualize= False
+                 oRasterPath="",
+                 visualize=False
 
                  ):
         """
@@ -88,9 +88,9 @@ class cgeoNLMF:
             self.__minNumberWeights = minNumberWeights
         if nbBands != None:
             self.__nbBands = nbBands
-        if oRasterPath != None:
-            self._oRasterPath = os.path.join(os.path.dirname(self.iRasterPath),
-                                             Path(self.iRasterPath).stem + "_geoNLMF.tif")
+        if oRasterPath == "":
+            self.oRasterPath = os.path.join(os.path.dirname(self.iRasterPath),
+                                            Path(self.iRasterPath).stem + "_B" + str(self.__nbBands) + "_geoNLMF.tif")
         self.visualize = visualize
 
     def geoNLMF(self):
@@ -104,8 +104,12 @@ class cgeoNLMF:
             snrArray = self.__iRasterInfo.ImageAsArray(bandNumber=3)
             self.__snrArray_fl = np.array(snrArray.flatten(), dtype=np.float32)
         self.PerformNLMF()
+        print(self.oRasterPath)
+        print(self.__iRasterInfo.geoTrans)
+        geoRT.WriteRaster(oRasterPath=self.oRasterPath, geoTransform=self.__iRasterInfo.geoTrans,
+                          arrayList=[self.__oArray], epsg=self.__iRasterInfo.EPSG_Code)
         if self.visualize:
-            self.VisualizeFiltering(-2, 2)
+            self.VisualizeFiltering(-2.5, 2.5)
 
         return
 
@@ -131,7 +135,7 @@ class cgeoNLMF:
         # divider = make_axes_locatable(axs[-1])
         # cax = divider.append_axes("right", size="5%", pad=0.05)
         # cbar = plt.colorbar(im, cax=cax)
-
+        plt.savefig(os.path.join(os.path.dirname(self.oRasterPath), Path(self.oRasterPath).stem + ".png"), dpi=300)
         plt.show()
         return
 
@@ -194,9 +198,43 @@ class cgeoNLMF:
         return
 
 
+def PlotProfiles():
+    ## plot profile:
+    import geospatialroutine.Plotting.Plot_Profiles as pltProfileRT
+
+    profilePath = os.path.join(os.path.dirname(__file__), "Test/Data/Profile_pline.kml")
+
+    rasterPath1 = os.path.join(os.path.dirname(__file__), "Test/Data/Disp2.tif")
+    rasterPath2 = os.path.join(os.path.dirname(__file__), "Test/Data/Disp2_B1_geoNLMF.tif")
+    # profile = pltProfileRT.ExtractProfile(rasterPath=rasterPath,
+    #                                       profilePath=profilePath, bandNumber=1, offset=True, center=2700,
+    #                                       center_minus=100, center_plus=100)
+    profile1 = pltProfileRT.ExtractProfile(rasterPath=rasterPath1,
+                                           profilePath=profilePath, bandNumber=1, offset=False)
+    profile2 = pltProfileRT.ExtractProfile(rasterPath=rasterPath2,
+                                           profilePath=profilePath, bandNumber=1, offset=False)
+    labels = ["orig.", "withgeoNLMF"]
+    fig1, (ax1) = plt.subplots(1, 1)
+    for index, profileObj_ in enumerate([profile1, profile2]):
+        ax1.tick_params(direction='in', top=True, right=True, which="both", axis="both", labelsize=14)
+        ax1.plot(profileObj_.cumDistances(), profileObj_.profileValues, linewidth="3",
+                 label=labels[index])
+    ax1.grid()
+    ax1.minorticks_on()
+    ax1.set_xlabel("Distance along profile [m]", fontsize=14)
+    ax1.set_ylabel("Displacement [m]", fontsize=14)
+    # ax1.set_ylim(-2.5, 1)
+    # ax1.set_xlim(self.cumDistances()[0], self.cumDistances()[-1])
+    plt.legend()
+    plt.show()
+
+    profile.PlotProfile()
+
+    return
+
+
 if __name__ == '__main__':
-
-
-    iRasterPath = os.path.join(os.path.dirname(__file__), "Test/Data/Disp1.tif")
-    geoNLMFObj = cgeoNLMF(iRasterPath, patchSize=7, searchSize=41, h=2, useSNR=0, adaptive=0,visualize =True)
+    iRasterPath = os.path.join(os.path.dirname(__file__), "Test/Data/Disp2.tif")
+    geoNLMFObj = cgeoNLMF(iRasterPath=iRasterPath, patchSize=7, searchSize=41, h=2, useSNR=0, adaptive=0,
+                          visualize=True, nbBands=1)
     geoNLMFObj.geoNLMF()

@@ -38,9 +38,24 @@ The package is tested on 3.6+ and C++11.
 [geoRoutines](https://github.com/SaifAati/geoRoutines), [GDAL](http://gdal.org),
 [numpy](http://www.scipy.org) , [scipy](http://numpy.org), [matplotlib](http://matplotlib.org).
 
-## **Examples**:
+## **Sample output**:
+###ROI: Ridgecrest
+Apply geoNLMF on the East/West displacement map: `patchSize=7, searchSize=41, h=2`
 
-![Example1](geoNLMF/Test/Data/ResExample1.png)
+![Example1](geoNLMF/Test/Data/Disp2_B1_geoNLMF.png)
+
+- *Extracted profiles before and after applying the geoNLMF*
+
+![Profile](geoNLMF/Test/Data/Disp2_before_after_profiles.png)
+
+- *Displacement and uncertainty of the offset before the goeNLMF*
+
+![OffsetBefore](geoNLMF/Test/Data/Offset_before_NLMF.png)
+
+- *Displacement and uncertainty of the offset after the goeNLMF*
+
+![OffsetAfter](geoNLMF/Test/Data/Offset_after_NLMF.png)
+
 
 ---
 ## References:

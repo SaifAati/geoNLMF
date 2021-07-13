@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document id="root_doc">
+<Schema name="Profile_pline" id="Profile_pline">
+	<SimpleField name="id" type="float"></SimpleField>
+</Schema>
+<Folder><name>Profile_pline</name>
+  <Placemark>
+	<Style><LineStyle><color>ff0000ff</color></LineStyle><PolyStyle><fill>0</fill></PolyStyle></Style>
+	<ExtendedData><SchemaData schemaUrl="#Profile_pline">
+		<SimpleData name="id">1</SimpleData>
+	</SchemaData></ExtendedData>
+      <MultiGeometry><LineString><coordinates>-117.590074781958,35.7085385768867 -117.53370674795,35.7086972473252</coordinates></LineString></MultiGeometry>
+  </Placemark>
+</Folder>
+</Document></kml>
