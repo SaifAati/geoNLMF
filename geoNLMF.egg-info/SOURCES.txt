@@ -1,9 +1,0 @@
-README.md
-setup.py
-geoNLMF/__init__.py
-geoNLMF/geoNLMF.py
-geoNLMF.egg-info/PKG-INFO
-geoNLMF.egg-info/SOURCES.txt
-geoNLMF.egg-info/dependency_links.txt
-geoNLMF.egg-info/requires.txt
-geoNLMF.egg-info/top_level.txt
