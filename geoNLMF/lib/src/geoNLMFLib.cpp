@@ -16,8 +16,8 @@
 #include <vector>
 #include <array>
 
-#include "Include/geoNLMF.h"
-#include "Include/geoNLMFLibTypeCode.h"
+#include "geoNLMF.h"
+#include "geoNLMFLibTypeCode.h"
 
 extern "C"
 {

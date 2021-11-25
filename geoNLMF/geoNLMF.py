@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from pathlib import Path
 
-import geospatialroutine.georoutines as geoRT
+import geoRoutines.georoutines as geoRT
 from ctypes import cdll
 
 
@@ -30,7 +30,7 @@ class cgeoNLMF:
     __nbBands = 1
     __snrArray_fl = np.zeros((1, 1), dtype=np.float32)
 
-    __geoNLMFLibPath = os.path.join(os.path.dirname(__file__), "Cpp/libgeoNLMF.so")
+    __geoNLMFLibPath = os.path.join(os.path.dirname(__file__), "lib/build/src/libgeoNLMF.so")
 
     def __init__(self, iRasterPath,
                  useSNR=0,
@@ -96,7 +96,10 @@ class cgeoNLMF:
     def geoNLMF(self):
 
         self.__iRasterInfo = geoRT.RasterInfo(self.iRasterPath)
+        # TODO: noData values are not supported
+        ## read noData value then --> nan
         self.iRasterArray = self.__iRasterInfo.ImageAsArray(bandNumber=self.__nbBands)
+
         self.__height = self.__iRasterInfo.rasterHeight
         self.__width = self.__iRasterInfo.rasterWidth
 
@@ -200,7 +203,7 @@ class cgeoNLMF:
 
 def PlotProfiles():
     ## plot profile:
-    import geospatialroutine.Plotting.Plot_Profiles as pltProfileRT
+    import geoRoutines.Plotting.Plot_Profiles as pltProfileRT
 
     profilePath = os.path.join(os.path.dirname(__file__), "Test/Data/Profile_pline.kml")
 
@@ -228,7 +231,7 @@ def PlotProfiles():
     plt.legend()
     plt.show()
 
-    profile.PlotProfile()
+    profile1.PlotProfile()
 
     return
 

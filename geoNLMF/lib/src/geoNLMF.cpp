@@ -7,7 +7,7 @@
 #include <emmintrin.h>
 #include <iostream>
 
-#include "Include/geoNLMF.h"
+#include "geoNLMF.h"
 
 // Constructors:
 CNLMFilter::CNLMFilter() {}
