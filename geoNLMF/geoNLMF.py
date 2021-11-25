@@ -230,7 +230,6 @@ def PlotProfiles():
     # ax1.set_xlim(self.cumDistances()[0], self.cumDistances()[-1])
     plt.legend()
     plt.show()
-
     profile1.PlotProfile()
 
     return
