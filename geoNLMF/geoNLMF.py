@@ -43,7 +43,7 @@ class cgeoNLMF:
                  linearRegression=None,
                  minWeight=None,
                  minNumberWeights=None,
-                 nbBands=None,
+                 bandsList=[],
                  oRasterPath="",
                  visualize=False
 
@@ -86,11 +86,10 @@ class cgeoNLMF:
             self.__minWeight = minWeight
         if minNumberWeights != None:
             self.__minNumberWeights = minNumberWeights
-        if nbBands != None:
-            self.__nbBands = nbBands
+        self.bandsList = bandsList
         if oRasterPath == "":
             self.oRasterPath = os.path.join(os.path.dirname(self.iRasterPath),
-                                            Path(self.iRasterPath).stem + "_B" + str(self.__nbBands) + "_geoNLMF.tif")
+                                            Path(self.iRasterPath).stem + "_geoNLMF.tif")
         self.visualize = visualize
 
     def geoNLMF(self):
@@ -98,7 +97,6 @@ class cgeoNLMF:
         self.__iRasterInfo = geoRT.RasterInfo(self.iRasterPath)
         # TODO: noData values are not supported
         ## read noData value then --> nan
-        self.iRasterArray = self.__iRasterInfo.ImageAsArray(bandNumber=self.__nbBands)
 
         self.__height = self.__iRasterInfo.rasterHeight
         self.__width = self.__iRasterInfo.rasterWidth
@@ -106,11 +104,22 @@ class cgeoNLMF:
         if self.__useSNR == 1:
             snrArray = self.__iRasterInfo.ImageAsArray(bandNumber=3)
             self.__snrArray_fl = np.array(snrArray.flatten(), dtype=np.float32)
-        self.PerformNLMF()
+        if len(self.bandsList) == 0:
+            self.bandsList = list(np.arange(1, self.__iRasterInfo.nbBand + 1, 1))
+
+
+        oArrayList = []
+        for band_ in self.bandsList:
+            # print(self.bandsList)
+            self.iRasterArray = self.__iRasterInfo.ImageAsArray(bandNumber=int(band_))
+            self.PerformNLMF()
+            oArrayList.append(self.__oArray)
         print(self.oRasterPath)
         print(self.__iRasterInfo.geoTrans)
-        geoRT.WriteRaster(oRasterPath=self.oRasterPath, geoTransform=self.__iRasterInfo.geoTrans,
-                          arrayList=[self.__oArray], epsg=self.__iRasterInfo.EPSG_Code)
+        geoRT.WriteRaster(oRasterPath=self.oRasterPath,
+                          geoTransform=self.__iRasterInfo.geoTrans,
+                          arrayList=oArrayList,
+                          epsg=self.__iRasterInfo.EPSG_Code)
         if self.visualize:
             self.VisualizeFiltering(-2.5, 2.5)
 
@@ -235,8 +244,3 @@ def PlotProfiles():
     return
 
 
-if __name__ == '__main__':
-    iRasterPath = os.path.join(os.path.dirname(__file__), "Test/Data/Disp2.tif")
-    geoNLMFObj = cgeoNLMF(iRasterPath=iRasterPath, patchSize=7, searchSize=41, h=2, useSNR=0, adaptive=0,
-                          visualize=True, nbBands=1)
-    geoNLMFObj.geoNLMF()
