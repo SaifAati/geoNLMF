@@ -21,7 +21,7 @@ class cgeoNLMF:
     __minNumberWeights = 6
     __snrArray_fl = np.zeros((1, 1), dtype=np.float32)
 
-    __geoNLMFLibPath = os.path.join(os.path.dirname(__file__), "lib/build/src/libgeoNLMF.so")
+    __geoNLMFLibPath = os.path.join(os.path.dirname(__file__), "lib/build/src/libgeoNLMF.v0.0.3.so")
     libgeoNLMF = cdll.LoadLibrary(__geoNLMFLibPath)
 
     def __init__(self, iRasterPath,
@@ -160,7 +160,7 @@ class cgeoNLMF:
 
         patchSize = np.array([self.patchSize], dtype=np.int32)
         searchAreaSize = np.array([self.searchSize], dtype=np.int32)
-        # print(searchAreaSize)
+        print(searchAreaSize)
         h = np.array([self.h], dtype=np.float32)
         weightingMethod = np.array([self.__weighting], dtype=np.int32)
 
