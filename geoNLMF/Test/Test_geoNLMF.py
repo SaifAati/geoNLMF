@@ -11,7 +11,8 @@ geoNLMFObj = cgeoNLMF(iRasterPath=iRasterPath,
                       adaptive=0,
                       visualize=True,
                       bandsList=[1],
-                      factor=0.75)
+                      factor=0.75,
+                      debug=True)
 geoNLMFObj.geoNLMF()
 del geoNLMFObj
 

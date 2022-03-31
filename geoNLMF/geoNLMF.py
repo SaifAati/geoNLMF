@@ -39,7 +39,7 @@ class cgeoNLMF:
                  oRasterPath="",
                  visualize=False,
                  debug=False,
-                 factor = 0.75
+                 factor=0.75
                  ):
         """
 
@@ -120,7 +120,6 @@ class cgeoNLMF:
             self.oArray = self.PerformNLMF()
             oArrayList.append(self.oArray)
 
-
         if self.debug:
             print("oRasterPath:", self.oRasterPath)
             print("ogeoTrans:", self.iRasterInfo.geoTrans)
@@ -131,7 +130,7 @@ class cgeoNLMF:
                           epsg=self.iRasterInfo.EPSG_Code,
                           noData=-32767)
         if self.visualize:
-            self.VisualizeFiltering(self.iRasterInfo,geoRT.RasterInfo(self.oRasterPath))
+            self.VisualizeFiltering(self.iRasterInfo, geoRT.RasterInfo(self.oRasterPath))
         return
 
     def PerformNLMF(self):
@@ -145,10 +144,11 @@ class cgeoNLMF:
         self.libgeoNLMF.InputData.argtypes = []
         self.libgeoNLMF.InputData.argtypes = [np.ctypeslib.ndpointer(dtype=np.int32),
                                               np.ctypeslib.ndpointer(dtype=np.int32),
-                                              np.ctypeslib.ndpointer(dtype=np.float32),
                                               np.ctypeslib.ndpointer(dtype=np.int32),
                                               np.ctypeslib.ndpointer(dtype=np.float32),
                                               np.ctypeslib.ndpointer(dtype=np.int32),
+                                              np.ctypeslib.ndpointer(dtype=np.float32),
+                                              np.ctypeslib.ndpointer(dtype=np.int32),
                                               np.ctypeslib.ndpointer(dtype=np.int32),
                                               np.ctypeslib.ndpointer(dtype=np.int32),
                                               np.ctypeslib.ndpointer(dtype=np.int32),
@@ -156,11 +156,13 @@ class cgeoNLMF:
                                               np.ctypeslib.ndpointer(dtype=np.int32),
                                               np.ctypeslib.ndpointer(dtype=np.float32),
                                               np.ctypeslib.ndpointer(dtype=np.float32),
-                                              np.ctypeslib.ndpointer(dtype=np.float32)]
+                                              np.ctypeslib.ndpointer(dtype=np.float32)
+                                              ]
 
         patchSize = np.array([self.patchSize], dtype=np.int32)
         searchAreaSize = np.array([self.searchSize], dtype=np.int32)
         print(searchAreaSize)
+        debug = np.array([self.debug], dtype=np.int32)
         h = np.array([self.h], dtype=np.float32)
         weightingMethod = np.array([self.__weighting], dtype=np.int32)
 
@@ -177,7 +179,8 @@ class cgeoNLMF:
         oArray_fl = np.zeros((self.width * self.height, 1), dtype=np.float32)
         snrArray_fl = np.copy(self.snrArray_fl)
         print(iArray_fl)
-        self.libgeoNLMF.InputData(patchSize,
+        self.libgeoNLMF.InputData(debug,
+                                  patchSize,
                                   searchAreaSize,
                                   h,
                                   weightingMethod,
@@ -197,7 +200,7 @@ class cgeoNLMF:
         self.libgeoNLMF.InputData.argtypes = []
         return oArray
 
-    def VisualizeFiltering(self, inRasterInfo,oRasterInfo, vmin=None, vmax=None, cmap="RdYlBu", save=True):
+    def VisualizeFiltering(self, inRasterInfo, oRasterInfo, vmin=None, vmax=None, cmap="RdYlBu", save=True):
         """
 
         Args:
@@ -214,8 +217,8 @@ class cgeoNLMF:
         bands = oRasterInfo.nbBand
         for band in range(bands):
             fig, axs = plt.subplots(1, 2, figsize=(16, 9))
-            inArray = inRasterInfo.ImageAsArray(bandNumber=band+1)
-            filteredArray = oRasterInfo.ImageAsArray(bandNumber=band+1)
+            inArray = inRasterInfo.ImageAsArray(bandNumber=band + 1)
+            filteredArray = oRasterInfo.ImageAsArray(bandNumber=band + 1)
 
             stat = geoRT.cgeoStat(inputArray=inArray, displayValue=False)
 
@@ -232,13 +235,10 @@ class cgeoNLMF:
             for ax, title in zip(axs, ["Disp. before\ngeoNLMF  ", "Disp. after \ngeoNLMF"]):
                 ax.axis('off')
                 ax.set_title(title)
-
+            plt.show()
             if save:
                 plt.savefig(os.path.join(os.path.dirname(self.oRasterPath),
-                                         Path(self.oRasterPath).stem + "_b" + str(band+1) + ".png"), dpi=300)
+                                         Path(self.oRasterPath).stem + "_b" + str(band + 1) + ".png"), dpi=300)
             fig.clear()
 
         return
-
-
-
