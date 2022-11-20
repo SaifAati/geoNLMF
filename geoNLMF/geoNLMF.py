@@ -8,7 +8,7 @@ import geoRoutines.georoutines as geoRT
 from ctypes import cdll
 from tqdm import tqdm
 
-
+NO_DATA =-32767
 class cgeoNLMF:
     __useSNR = 0
     __patchSize = 5
@@ -35,60 +35,45 @@ class cgeoNLMF:
                  linearRegression=None,
                  minWeight=None,
                  minNumberWeights=None,
-                 bandsList=[],
+                 bandsList=None,
                  oRasterPath="",
                  visualize=False,
                  debug=False,
                  factor=0.75
                  ):
-        """
-
-        Args:
-            iRasterPath:
-            useSNR:
-            patchSize:
-            searchSize:
-            h:
-            adaptive:
-            centerPoint:
-            weighting:
-            linearRegression:
-            minWeight:
-            minNumberWeights:
-            nbBands:
-            oRasterPath:
-        """
+        if bandsList is None:
+            bandsList = []
         self.debug = debug
         self.iRasterPath = iRasterPath
         self.factor = factor
         self.searchSize = searchSize
-        if self.searchSize == None:
+        if self.searchSize is None:
             self.searchSize = self.__searchSize
 
         self.useSNR = useSNR
-        if self.useSNR == None:
+        if self.useSNR is None:
             self.useSNR = self.__useSNR
         self.patchSize = patchSize
-        if self.patchSize == None:
+        if self.patchSize is None:
             self.patchSize = self.__patchSize
 
         self.h = h
-        if self.h == None:
+        if self.h is None:
             self.h = self.__h
         self.adaptive = adaptive
 
-        if self.adaptive != None:
+        if self.adaptive is not None:
             self.adaptive = adaptive
 
-        if centerPoint != None:
+        if centerPoint is not None:
             self.__centerPoint = 0
-        if weighting != None:
+        if weighting is not None:
             self.__weighting = weighting
-        if linearRegression != None:
+        if linearRegression is not None:
             self.__linearRegression = linearRegression
-        if minWeight != None:
+        if minWeight is not None:
             self.__minWeight = minWeight
-        if minNumberWeights != None:
+        if minNumberWeights is not None:
             self.__minNumberWeights = minNumberWeights
         self.bandsList = bandsList
         self.oRasterPath = oRasterPath
@@ -128,7 +113,7 @@ class cgeoNLMF:
                           geoTransform=self.iRasterInfo.geoTrans,
                           arrayList=oArrayList,
                           epsg=self.iRasterInfo.EPSG_Code,
-                          noData=-32767)
+                          noData=NO_DATA)
         if self.visualize:
             self.VisualizeFiltering(self.iRasterInfo, geoRT.RasterInfo(self.oRasterPath))
         return
@@ -223,9 +208,9 @@ class cgeoNLMF:
             stat = geoRT.cgeoStat(inputArray=inArray, displayValue=False)
 
             factor = self.factor
-            if vmin == None:
+            if vmin is None:
                 vmin = float(stat.mean) - factor * float(stat.std)
-            if vmax == None:
+            if vmax is None:
                 vmax = float(stat.mean) + factor * float(stat.std)
 
             im1 = axs[0].imshow(inArray, cmap=cmap, vmin=vmin, vmax=vmax)

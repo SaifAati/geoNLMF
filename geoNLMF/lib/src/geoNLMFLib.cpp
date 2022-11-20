@@ -22,7 +22,9 @@
 extern "C"
 {
 
-    void InputData(int *patchSize,
+    void InputData(
+                    int *debug,
+                    int *patchSize,
                    int *searchAreaSize,
                    float *h,
                    int *weightingMethod,
@@ -38,8 +40,14 @@ extern "C"
                    float *snrArray)
     {
         CNLMFilter filterObject;
-        std::cout<< "=== geoNLMF(C++) ===="<<std::endl;
 
+       
+        
+
+        if (*debug ==1)
+        {
+             std::cout<< "=== geoNLMF(C++) ===="<<std::endl;
+        }
         int bandNumber = 1;  // @SA: is this variable useful !!
 
         //Patch size:
